@@ -86,3 +86,29 @@ export function extractPageData(html: string, pageURL: string): ExtractedPageDat
     return out
 }
 
+export async function getHTML(url: string){
+    const response = await fetch(url, {
+        headers: {
+            "User-Agent": "TSSimpleCrawl/1.0"
+        }
+    })
+
+    if (response.status >= 400) {
+        console.error(`Returned error status: ${response.status} ${response.statusText}`)
+        return
+    }
+    if (!response.headers || response.headers.get("content-type") !== "text/html" ) {
+        console.error(`Response not content-type text/html`)
+        return
+    }
+
+    console.log(await response.text() ?? "response body not found")
+}
+
+export async function crawlPage(
+    baseURL: string, 
+    currentURL: string = baseURL, 
+    pages: Record<string, number> = {}
+) {
+    
+}
